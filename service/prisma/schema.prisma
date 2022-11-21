@@ -14,60 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Group {
-  id        String   @id @default(cuid())
-  title     String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  ownerId   String?
-
-  owner User? @relation(fields: [ownerId], references: [id])
-
-  participant Participant[]
-}
-
-model Participant {
-  id      String  @id @default(cuid())
-  guesses Guess[]
-  userId  String
-  groupId String
-
-  user User  @relation(fields: [userId], references: [id])
-  group Group @relation(fields: [groupId], references: [id])
-
-  //só vai ter no maximo 1 registro desses 2
-  @@unique([userId, groupId])
-}
-
-model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  avatarUrl String?
-  createdAt DateTime @default(now())
-
-  participatingAt Participant[]
-  ownGroups       Group[]
-}
-
-model Game {
-  id   String   @id @default(cuid())
-  date DateTime
-
-  firstTeamCountryCode  String
-  secondTeamCountryCode String
-  guesses               Guess[]
-}
-
-model Guess {
-  id String @id @default(cuid())
-
-  firstTeamPoints  Int
-  secondTeamPoints Int
-  createdAt        DateTime @default(now())
-  gameId           String
-  participantId    String
-
-  participant Participant @relation(fields: [participantId], references: [id])
-  game        Game        @relation(fields: [gameId], references: [id])
+model Transaction {
+  id         Int       @id @default(autoincrement())
+  title      String
+  value      Float
+  operation  String
+  category   String
+  changeDate DateTime? @default(now())
 }

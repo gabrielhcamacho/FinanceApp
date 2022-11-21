@@ -23,49 +23,47 @@ async function start() {
     })
 
 
-    fastify.get('/groups/count', async () => {
-        const count = await prisma.group.count()
-
-        return { count }
-    })
-    
-    fastify.get('/users/count', async () => {
-        const count = await prisma.user.count()
+    fastify.get('/transactions', async () => {
+        const count = await prisma.transaction.findMany()
 
         return { count }
     })
 
-    fastify.get('/guesses/count', async () => {
-        const count = await prisma.guess.count()
+    fastify.get('/transactions/count', async () => {
+        const count = await prisma.transaction.count()
 
         return { count }
     })
 
-
-    fastify.post('/groups', async (request, reply) => {
+    fastify.post('/transactions', async (request, reply) => {
 
         //para não deixar criar o campo null, se puder ser nulo coloca o nullable
         const createGroupBody = z.object({
             title: z.string(),
+            value: z.number(),
+            operation: z.string(),
+            category: z.string(),
         })
-        
-        const { title } = createGroupBody.parse(request.body)
+
+        const { title, value, operation, category } = createGroupBody.parse(request.body)
 
         const generate = new ShortUniqueId({ length: 6 })
-        const code =  String(generate()).toUpperCase()
+        const code = String(generate()).toUpperCase()
 
-        await prisma.group.create({
+        await prisma.transaction.create({
             data: {
                 title,
-                code,
+                value,
+                operation,
+                category
             }
         })
 
         return reply.status(201).send({ code })
     })
-    
 
-    await fastify.listen({ port: 3333 })
+
+    await fastify.listen({ port: 8081 })
 }
 
 start()

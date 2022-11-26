@@ -1,3 +1,5 @@
 # FinanceApp
- Primeira alteração do Nino
- Teste 
+Joseph Alfredo Abdayem de Lima
+Gabriel Henrique Pereira Camacho
+Gabriel Gonçalves
+Bruno Okamoto

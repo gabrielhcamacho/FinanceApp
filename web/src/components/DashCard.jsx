@@ -2,9 +2,7 @@ import React from 'react'
 
 import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs'
 
-export default function DashCard({ title }) {
-
-    let amount = 500
+export default function DashCard({ title, amount }) {
 
     let icon;
 
@@ -32,7 +30,7 @@ export default function DashCard({ title }) {
                 {icon}
             </div>
             <div className='flex w-full mt-4'>
-                <span className='text-3xl text-white font-semibold'>R$ {amount}</span>
+                <span className='text-3xl text-white font-semibold'>{amount}</span>
             </div>
         </div>
     )
